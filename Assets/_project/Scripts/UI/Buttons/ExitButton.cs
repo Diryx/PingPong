@@ -12,7 +12,7 @@ public class ExitButton : MonoBehaviour
 
     private void OnDisable()
     {
-        _exitButton.onClick.RemoveAllListeners();
+        _exitButton.onClick.RemoveListener(QuitGame);
     }
 
     public void QuitGame()

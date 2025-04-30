@@ -11,8 +11,6 @@ public class GoalTrigger : MonoBehaviour
         _counter = counter;
     }
 
-
-
     private void OnTriggerExit2D(Collider2D col)
     {
         if (col.TryGetComponent(out BallController ball))
@@ -22,6 +20,7 @@ public class GoalTrigger : MonoBehaviour
             else 
                 _counter.UpdateEnemyGoal();
 
+            ball.ResetSpeed();
             ball.ResetBall(0);
         }
     }

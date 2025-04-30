@@ -6,28 +6,18 @@ using Zenject;
 public class RestartButton : MonoBehaviour
 {
     [SerializeField] private Button _button;
-    [SerializeField] private GameObject _hudBasic;
-    [SerializeField] private GameObject _hudRestart;
+    [SerializeField] private float _delayRestartGame;
 
     private Counter _counter;
     private BallController _ballController;
+    private FirstHudView _firstHudView;
 
     [Inject]
-    private void Construct(Counter counter, BallController ball)
+    private void Construct(Counter counter, BallController ball, FirstHudView firstHudView)
     {
         _counter = counter;
         _ballController = ball;
-    }
-
-    public async void RestartGame()
-    {
-        _hudBasic.SetActive(true);
-        _hudRestart.SetActive(false);
-        _counter.ResetCountDone();
-
-        await UniTask.Delay(1000);
-
-        _ballController.ResetSpeed();
+        _firstHudView = firstHudView;
     }
 
     private void Start()
@@ -37,6 +27,18 @@ public class RestartButton : MonoBehaviour
 
     private void OnDisable()
     {
-        _button.onClick.RemoveAllListeners();
+        _button.onClick.RemoveListener(RestartGame);
+    }
+
+    public async void RestartGame()
+    {
+        _firstHudView.SetActiveBasic(true);
+        _firstHudView.SetActiveRestart(false);
+        _counter.ResetCountDone();
+
+        await UniTask.WaitForSeconds(_delayRestartGame);
+
+        _ballController.ResetSpeed();
+        _ballController.ResetBall(0);
     }
 }

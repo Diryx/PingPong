@@ -28,6 +28,11 @@ public class Counter : MonoBehaviour
 
     }
 
+    private void OnEnable()
+    {
+        ResetCountDone();
+    }
+
     public void UpdatePlayerGoal()
     {
         _currentGoalsPlayer++;
@@ -55,6 +60,11 @@ public class Counter : MonoBehaviour
         IsCountDone = false;
         _currentGoalsPlayer = 0;
         _currentGoalsEnemy = 0;
+    }
+
+    public void SelectTargetGoals(int targetGoals)
+    {
+        _targetGoals = targetGoals;
     }
 
     private void CountDone()
